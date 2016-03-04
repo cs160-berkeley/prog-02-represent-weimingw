@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ww.represent.RepresentativeList">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="360dp"
+        android:id="@+id/imgMobileListItemBackground"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="#297bff" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/imgMobileListItemPicture"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/generic_f"
+        android:scaleType="fitStart" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="88dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Sen. First Name Middle Name Last Name"
+        android:id="@+id/textMobileListItemRepName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/imgMobileListItemPicture"
+        android:gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="96dp"
+        android:layout_height="24dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Democrat"
+        android:id="@+id/textMobileListItemParty"
+        android:gravity="center"
+        android:paddingRight="6dp"
+        android:paddingLeft="6dp"
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/textMobileListItemTerm"
+        android:layout_toEndOf="@+id/imgMobileListItemPicture"
+        android:layout_above="@+id/textMobileListItemEmail" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="36dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Serving from:"
+        android:id="@+id/textView3"
+        android:gravity="center"
+        android:paddingLeft="6dp"
+        android:textSize="16dp"
+        android:paddingRight="6dp"
+        android:layout_below="@+id/textMobileListItemRepName"
+        android:layout_toEndOf="@+id/imgMobileListItemPartyIcon" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgMobileListItemPartyIcon"
+        android:src="@drawable/donkey"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_below="@+id/textMobileListItemRepName"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignEnd="@+id/textMobileListItemParty"
+        android:layout_toEndOf="@+id/imgMobileListItemPicture" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2014-2016"
+        android:id="@+id/textMobileListItemTerm"
+        android:gravity="center"
+        android:paddingLeft="6dp"
+        android:textSize="16dp"
+        android:layout_below="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:paddingRight="6dp"
+        android:layout_above="@+id/textMobileListItemEmail" />
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:id="@+id/imageView6"
+        android:src="@drawable/email"
+        android:layout_below="@+id/imgMobileListItemPicture"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:id="@+id/imageView7"
+        android:src="@drawable/website"
+        android:layout_below="@+id/imageView6"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:id="@+id/imageView8"
+        android:layout_below="@+id/imageView7"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/twitter"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textMobileListItemEmail"
+        android:layout_above="@+id/imageView7"
+        android:layout_alignEnd="@+id/textMobileListItemRepName"
+        android:layout_toEndOf="@+id/imageView6"
+        android:gravity="center_vertical"
+        android:textSize="14dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textMobileListItemWebsite"
+        android:gravity="center_vertical"
+        android:layout_alignBottom="@+id/imageView7"
+        android:layout_alignEnd="@+id/textMobileListItemEmail"
+        android:layout_toEndOf="@+id/imageView6"
+        android:layout_below="@+id/imageView6"
+        android:textSize="14dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textMobileListItemTwitter"
+        android:gravity="center_vertical"
+        android:layout_alignTop="@+id/imageView8"
+        android:layout_alignEnd="@+id/textMobileListItemWebsite"
+        android:layout_toEndOf="@+id/imageView8"
+        android:layout_alignBottom="@+id/imageView8"
+        android:textSize="14dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textMobileListItemLastTweet"
+        android:layout_below="@+id/imageView8"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textMobileListItemTwitter"
+        android:textSize="14dp"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Select for more info"
+        android:id="@+id/textView"
+        android:layout_below="@+id/textMobileListItemLastTweet"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textMobileListItemTerm"
+        android:gravity="center"
+        android:paddingBottom="12px"
+        android:paddingTop="6dp" />
+
+</RelativeLayout>

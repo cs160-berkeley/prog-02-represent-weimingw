@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".Representative"
+    tools:deviceIds="wear_round"
+    android:orientation="vertical"
+    android:id="@+id/layoutWearRepresentative">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.25"
+        android:background="@drawable/flag">
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/imgWearRepresentativePic"
+            android:scaleType="fitCenter"
+            android:src="@drawable/generic_m"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:id="@+id/imgWearRepresentativeDownswipe"
+            android:src="@drawable/downswipe"
+            android:scaleType="fitXY"
+            android:alpha="0.5"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="36dp"
+            android:id="@+id/imgWearRepresentativeLeftswipe"
+            android:src="@drawable/leftswipe"
+            android:scaleType="fitXY"
+            android:alpha="0.5"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FE4E4E">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Sen. First Last"
+            android:id="@+id/textWearRepresentativeName"
+            android:paddingBottom="6px"
+            android:paddingTop="6px"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="false"
+            android:gravity="center"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:id="@+id/imgWearRepresentativeParty"
+            android:src="@drawable/donkey"
+            android:layout_marginStart="38dp"
+            android:layout_below="@+id/textWearRepresentativeName"
+            android:layout_alignStart="@+id/textWearRepresentativeName" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="(P)"
+            android:id="@+id/textWearRepresentativeParty"
+            android:textSize="14dp"
+            android:layout_marginStart="19dp"
+            android:gravity="center"
+            android:layout_below="@+id/textWearRepresentativeName"
+            android:layout_toEndOf="@+id/imgWearRepresentativeParty" />
+
+    </RelativeLayout>
+
+</LinearLayout>
