@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 public class Welcome extends Activity implements SensorEventListener {
 
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+
   private TextView mTextView;
 
   private SensorManager mSensorManager;

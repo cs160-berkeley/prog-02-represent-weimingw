@@ -147,7 +147,7 @@
                                     android:layout_height="match_parent"
                                     android:id="@+id/imgMobileSearchRep1"
                                     android:src="@drawable/generic_f"
-                                    android:scaleType="center" />
+                                    android:scaleType="fitCenter" />
 
                             </LinearLayout>
 
@@ -162,7 +162,7 @@
                                     android:layout_height="match_parent"
                                     android:id="@+id/imgMobileSearchRep2"
                                     android:src="@drawable/generic_f"
-                                    android:scaleType="center" />
+                                    android:scaleType="fitCenter" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -176,7 +176,7 @@
                                     android:layout_height="match_parent"
                                     android:id="@+id/imgMobileSearchRep3"
                                     android:src="@drawable/generic_f"
-                                    android:scaleType="center" />
+                                    android:scaleType="fitCenter" />
                             </LinearLayout>
                         </LinearLayout>
                     </HorizontalScrollView>

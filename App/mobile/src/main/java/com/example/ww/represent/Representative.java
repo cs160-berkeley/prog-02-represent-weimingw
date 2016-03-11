@@ -1,5 +1,6 @@
 package com.example.ww.represent;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,17 +13,18 @@ import java.util.LinkedList;
  * Created by WW on 2/27/2016.
  */
 class Representative {
-    Drawable picture;
+    Bitmap picture;
 
     boolean isSenator;
+    String bioguideID;
     String name;
     String party;
-    short termBegin;
-    short termEnd;
+    String termBegin;
+    String termEnd;
     String email;
     String website;
     String twitter;
-    String lastTweet;
+    Long tweetID;
 
     LinkedList<String> recentBills;
     LinkedList<String> committees;

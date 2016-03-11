@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -24,7 +25,17 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * Created by joleary on 2/19/16.
@@ -43,6 +54,8 @@ public class PhoneToWatchService extends Service {
     private static final String OBAMA_VOTES_PATH = "/obama";
     private static final String ROMNEY_VOTES_PATH = "/romney";
     private static final String COUNTY_PATH = "/county";
+
+    private static JSONArray countyAndVotes = null;
 
     @Override
     public void onCreate() {
@@ -106,7 +119,7 @@ public class PhoneToWatchService extends Service {
                     sendMessage(NAME_PATH, "Rep. " + rep.name);
                 }
 
-                sendDrawable(rep.picture);
+                sendBitmap(rep.picture);
 
                 if (rep.party.equals("Democrat")) {
                     sendMessage(PARTY_PATH, "(D)");
@@ -126,32 +139,64 @@ public class PhoneToWatchService extends Service {
 
     private void getAndSendVotes()
     {
-        if (RepresentativeList.zip.equals("94704"))
-        {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //first, connect to the apiclient
-                mApiClient.connect();
-                //now that you're connected, send a massage with the cat name
-                sendMessage(OBAMA_VOTES_PATH, "66.23");
-                sendMessage(ROMNEY_VOTES_PATH, "31.09");
-                sendMessage(COUNTY_PATH, "Alameda County, CA");
+        try {
+            if (countyAndVotes == null) {
+                //initialize it
+                InputStream is = getResources().openRawResource(R.raw.election_county_2012);
+                Writer writer = new StringWriter();
+                char[] buffer = new char[1024];
+                try {
+                    Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    int n;
+                    while ((n = reader.read(buffer)) != -1) {
+                        writer.write(buffer, 0, n);
+                    }
                 }
-            }).start();
+                finally {
+                    is.close();
+                }
+
+                countyAndVotes = new JSONArray(writer.toString());
+            }
+
+            if (RepresentativeList.county == null) {
+                return;
+            }
+
+            if (RepresentativeList.state.equals("AK")) {
+                for (int i = 0; i < countyAndVotes.length(); i++) {
+                    JSONObject jo = countyAndVotes.getJSONObject(i);
+                    if (jo.getString("state-postal").equals(RepresentativeList.state)) {
+                        sendMessage(OBAMA_VOTES_PATH, jo.getString("obama-percentage"));
+                        sendMessage(ROMNEY_VOTES_PATH, jo.getString("romney-percentage"));
+                        sendMessage(COUNTY_PATH, RepresentativeList.county + ", " + RepresentativeList.state);
+                    }
+                }
+            }
+
+            //search through it
+            //countyAndVotes.get()
+
+            int cutoff = RepresentativeList.county.indexOf("County") - 1;
+            String newstring = RepresentativeList.county.substring(0, cutoff);
+
+            for (int i = 0; i < countyAndVotes.length(); i++) {
+                JSONObject jo = countyAndVotes.getJSONObject(i);
+                if (jo.getString("county-name").equals(RepresentativeList.county.substring(0, cutoff)) &&
+                    jo.getString("state-postal").equals(RepresentativeList.state)) {
+                    sendMessage(OBAMA_VOTES_PATH, jo.getString("obama-percentage"));
+                    sendMessage(ROMNEY_VOTES_PATH, jo.getString("romney-percentage"));
+                    sendMessage(COUNTY_PATH, RepresentativeList.county + ", " + RepresentativeList.state);
+                }
+            }
+//            Log.d("T", countyAndVotes.toString(2));
+//            sendMessage(COUNTY_PATH, RepresentativeList.county + ", " + RepresentativeList.state);
+//            sendMessage(OBAMA_VOTES_PATH, "66.23");
+//            sendMessage(ROMNEY_VOTES_PATH, "31.09");
+//            sendMessage(COUNTY_PATH, "Alameda County, CA");
         }
-        else {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //first, connect to the apiclient
-                    mApiClient.connect();
-                    //now that you're connected, send a massage with the cat name
-                    sendMessage(OBAMA_VOTES_PATH, "56.42");
-                    sendMessage(ROMNEY_VOTES_PATH, "41.82");
-                    sendMessage(COUNTY_PATH, "Clark County, NV");
-                }
-            }).start();
+        catch (Exception e) {
+            Log.d("T", e.toString());
         }
     }
 
@@ -180,6 +225,17 @@ public class PhoneToWatchService extends Service {
     }
 
     /* The following code I got from StackOverflow */
+    private void sendBitmap(Bitmap img) {
+
+        Asset asset = createAssetFromBitmap(img);
+
+        PutDataMapRequest dataMap = PutDataMapRequest.create("/image");
+        dataMap.getDataMap().putAsset("profileImage", asset);
+        PutDataRequest request = dataMap.asPutDataRequest();
+        PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
+          .putDataItem(mApiClient, request);
+    }
+
     private void sendDrawable(Drawable img) {
 
         Bitmap bitmap = drawableToBitmap(img);

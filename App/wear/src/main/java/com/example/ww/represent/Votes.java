@@ -28,8 +28,8 @@ public class Votes extends Activity implements SensorEventListener {
         TextView obamaText = (TextView) findViewById(R.id.textWearVotesObamaVotes);
         TextView romneyText = (TextView) findViewById(R.id.textWearVotesRomneyVotes);
         TextView countyText = (TextView) findViewById(R.id.textWearVotesCountyState);
-        obamaText.setText(obamaVotes + "");
-        romneyText.setText(romneyVotes + "");
+        obamaText.setText(obamaVotes + "%");
+        romneyText.setText(romneyVotes + "%");
         countyText.setText(county);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

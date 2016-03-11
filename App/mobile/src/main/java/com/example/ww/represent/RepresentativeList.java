@@ -4,23 +4,38 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.tweetui.CompactTweetView;
+import com.twitter.sdk.android.tweetui.TweetUtils;
+import com.twitter.sdk.android.tweetui.TweetView;
+
 import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
 
 public class RepresentativeList extends Activity {
 
     ListView repListView;
     RepresentativeAdapter repAdapter;
 
+    static String county = "";
+    static String state = "";
     static String zip = "";
 
     @Override
@@ -75,17 +90,16 @@ class RepresentativeAdapter extends BaseAdapter {
 
         Representative rep = repList.get(position);
 
-        View repListItem = inflater.inflate(R.layout.rep_list_item, parent, false);
+        final View repListItem = inflater.inflate(R.layout.rep_list_item, parent, false);
         TextView repName = (TextView) repListItem.findViewById(R.id.textMobileListItemRepName);
         TextView party = (TextView) repListItem.findViewById(R.id.textMobileListItemParty);
         TextView term = (TextView) repListItem.findViewById(R.id.textMobileListItemTerm);
         TextView email = (TextView) repListItem.findViewById(R.id.textMobileListItemEmail);
         TextView website = (TextView) repListItem.findViewById(R.id.textMobileListItemWebsite);
         TextView twitter = (TextView) repListItem.findViewById(R.id.textMobileListItemTwitter);
-        TextView lastTweet = (TextView) repListItem.findViewById(R.id.textMobileListItemLastTweet);
         ImageView picture = (ImageView) repListItem.findViewById(R.id.imgMobileListItemPicture);
         ImageView partyIcon = (ImageView) repListItem.findViewById(R.id.imgMobileListItemPartyIcon);
-        ImageView background = (ImageView) repListItem.findViewById(R.id.imgMobileListItemBackground);
+        RelativeLayout background = (RelativeLayout) repListItem.findViewById(R.id.layoutMobileListItem);
 
         SharedMethods.setName(rep.isSenator, rep.name, repName);
         party.setText(rep.party.toString());
@@ -93,9 +107,26 @@ class RepresentativeAdapter extends BaseAdapter {
         email.setText(rep.email);
         website.setText(rep.website);
         twitter.setText(rep.twitter);
-        lastTweet.setText(rep.lastTweet);
-        picture.setImageDrawable(rep.picture);
+
+        picture.setImageBitmap(rep.picture);
         SharedMethods.setPartyImages(rep.party, partyIcon, background);
+
+        if (rep.tweetID != null) {
+            long tweetId = rep.tweetID;
+            TweetUtils.loadTweet(tweetId, new Callback<Tweet>() {
+                @Override
+                public void success(Result<Tweet> result) {
+                    CompactTweetView tweetView = new CompactTweetView(context, result.data);
+                    ((FrameLayout) repListItem.findViewById(R.id.layoutMobileListItemTweetFrame)).addView(tweetView);
+                    tweetView.setClickable(false);
+                }
+
+                @Override
+                public void failure(TwitterException exception) {
+                    Log.d("TwitterKit", "Load Tweet failure", exception);
+                }
+            });
+        }
 
         return repListItem;
     }

@@ -4,14 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.tweetui.CompactTweetView;
+import com.twitter.sdk.android.tweetui.TweetUtils;
 
 import java.util.LinkedList;
 
@@ -38,28 +52,59 @@ public class DetailedProfile extends Activity {
         TextView email = (TextView) findViewById(R.id.textMobileDetailedProfileEmail);
         TextView website = (TextView) findViewById(R.id.textMobileDetailedProfileWebsite);
         TextView twitter = (TextView) findViewById(R.id.textMobileDetailedProfileTwitter);
-        TextView lastTweet = (TextView) findViewById(R.id.textMobileDetailedProfileLastTweet);
         ImageView picture = (ImageView) findViewById(R.id.imgMobileDetailedProfilePicture);
         ImageView partyIcon = (ImageView) findViewById(R.id.imgMobileDetailedProfilePartyIcon);
-        ImageView background = (ImageView) findViewById(R.id.imgMobileDetailedProfileBackground);
-        ListView committees = (ListView) findViewById(R.id.listMobileDetailedProfileCommittees);
-        ListView recentBills = (ListView) findViewById(R.id.listMobileDetailedProfileRecentBills);
+        ScrollView background = (ScrollView) findViewById(R.id.layoutMobileDetailedProfile);
 
         SharedMethods.setName(rep.isSenator, rep.name, repName);
         party.setText(rep.party.toString());
         term.setText(rep.termBegin + "-" + rep.termEnd);
-        email.setText(rep.email);
-        website.setText(rep.website);
-        twitter.setText(rep.twitter);
-        lastTweet.setText(rep.lastTweet);
-        picture.setImageDrawable(rep.picture);
+        email.setText(Html.fromHtml("<a href=\"mailto:"+ rep.email +"\">" + rep.email + "</a>"));
+        email.setClickable(true);
+        email.setMovementMethod(LinkMovementMethod.getInstance());
+        website.setText(Html.fromHtml("<a href=\"" + rep.website + "\">" + rep.website + "</a>"));
+        website.setClickable(true);
+        website.setMovementMethod(LinkMovementMethod.getInstance());
+        twitter.setText(Html.fromHtml("<a href=\"http://www.twitter.com/" + rep.twitter + "\">" + rep.twitter + "</a>"));
+        twitter.setClickable(true);
+        twitter.setMovementMethod(LinkMovementMethod.getInstance());
+        picture.setImageBitmap(rep.picture);
         SharedMethods.setPartyImages(rep.party, partyIcon, background);
 
-        StringAdapter sa = new StringAdapter(this, rep.committees);
-        committees.setAdapter(sa);
+        if (rep.tweetID != null) {
+            long tweetId = rep.tweetID;
+            TweetUtils.loadTweet(tweetId, new Callback<Tweet>() {
+                @Override
+                public void success(Result<Tweet> result) {
+                    CompactTweetView tweetView = new CompactTweetView(getBaseContext(), result.data);
+                    ((FrameLayout) findViewById(R.id.layoutMobileDetailedTweet)).addView(tweetView);
+                    tweetView.setClickable(false);
+                }
 
-        sa = new StringAdapter(this, rep.recentBills);
-        recentBills.setAdapter(sa);
+                @Override
+                public void failure(TwitterException exception) {
+                    Log.d("TwitterKit", "Load Tweet failure", exception);
+                }
+            });
+        }
+
+        LinearLayout committeeView = (LinearLayout) findViewById(R.id.layoutMobileDetailedCommittees);
+        for (String committee : rep.committees) {
+            TextView tv = new TextView(getBaseContext());
+            tv.setText(committee);
+            tv.setPadding(12, 6, 6, 6);
+            tv.setTextSize(13);
+            committeeView.addView(tv);
+        }
+
+        LinearLayout billView = (LinearLayout) findViewById(R.id.layoutMobileDetailedBills);
+        for (String bill : rep.recentBills) {
+            TextView tv = new TextView(getBaseContext());
+            tv.setText(bill);
+            tv.setPadding(12, 6, 6, 6);
+            tv.setTextSize(13);
+            billView.addView(tv);
+        }
     }
 }
 

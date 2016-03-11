@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ww.represent.Login">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:background="#4180ff"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/imageView"
+        android:background="#ff5a5a"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="This app needs Twitter to fetch your representatives&apos; tweets!"
+        android:id="@+id/status"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginTop="56dp"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:paddingBottom="18dp"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignParentStart="true"/>
+
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitter_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Or... continue without Twitter"
+        android:id="@+id/textView2"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginTop="53dp"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="18dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="No Twitter"
+        android:id="@+id/btnMobileLoginNoTwitter"
+        android:alpha="0.65"
+        android:layout_below="@+id/textView2"
+        android:layout_alignEnd="@+id/twitter_login_button"
+        android:layout_alignStart="@+id/twitter_login_button"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="(You won&apos;t be able to see Tweets)"
+        android:id="@+id/textView4"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:padding="6dp"
+        android:layout_below="@+id/btnMobileLoginNoTwitter"
+        android:layout_alignEnd="@+id/btnMobileLoginNoTwitter"
+        android:layout_alignStart="@+id/btnMobileLoginNoTwitter"/>
+
+</RelativeLayout>

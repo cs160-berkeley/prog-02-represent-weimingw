@@ -10,5 +10,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/textMobileBasicListItem1"
         android:layout_alignParentTop="true"
-        android:textSize="14dp" />
+        android:textSize="12dp"
+        android:padding="3dp"/>
 </RelativeLayout>
